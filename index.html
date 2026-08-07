@@ -1,18 +1,636 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="bn">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>সহজপাস · ShohojPass — আপনার পাসপোর্ট যাত্রার বিশ্বস্ত সহযাত্রী</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="bg-page text-ink font-sans antialiased">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>সহজপাস · ShohojPass — Your Passport Journey Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #006A4E;
+    --primary-dark: #04402F;
+    --secondary: #F42A41;
+    --ink: #0F172A;
+    --bg: #F8FAFC;
+    --surface: #FFFFFF;
+    --muted: #64748B;
+    --gold: #C9A227;
+    --border: #E2E8F0;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
+    min-height: 100vh;
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* ---------- NAVBAR ---------- */
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(248,250,252,0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-mark {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 14px;
+  }
+  .brand-name { font-weight: 600; font-size: 16px; }
+  .brand-sub { font-size: 12px; color: var(--muted); }
+  .nav-links { display: flex; gap: 28px; font-size: 14px; color: var(--muted); }
+  .cta-btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 15% 20%, rgba(0,106,78,0.06), transparent 40%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 72px 24px 56px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 56px;
+    align-items: center;
+    position: relative;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,106,78,0.08);
+    color: var(--primary);
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: 46px;
+    line-height: 1.12;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  h1 span { color: var(--primary); }
+  .hero-desc {
+    font-size: 17px;
+    color: var(--muted);
+    margin-top: 20px;
+    max-width: 460px;
+    line-height: 1.6;
+  }
+  .hero-actions { display: flex; gap: 12px; margin-top: 32px; }
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 13px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-secondary {
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .stats { display: flex; gap: 36px; margin-top: 44px; }
+  .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; color: var(--primary-dark); }
+  .stat-label { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+
+  .hero-card-wrap { display: flex; justify-content: center; }
+
+  /* ---------- PASSPORT CARD ---------- */
+  .passport-card {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    border-radius: 20px;
+    background: linear-gradient(155deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: 28px;
+    box-shadow: 0 30px 60px -20px rgba(4,64,47,0.45);
+    overflow: hidden;
+  }
+  .stamp-badge {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(201,162,39,0.08);
+    transform: rotate(-12deg) scale(0);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease;
+  }
+  .stamp-badge.visible { transform: rotate(-12deg) scale(1); opacity: 1; }
+  .stamp-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--gold);
+    text-align: center;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .card-eyebrow {
+    color: rgba(255,255,255,0.65);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .card-title {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    margin-bottom: 22px;
+  }
+  .card-body {
+    position: relative;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 20px 18px;
+    height: 230px;
+    overflow: hidden;
+  }
+  .scan-line {
+    position: absolute;
+    left: 0; right: 0;
+    top: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #7CFFC4, transparent);
+    box-shadow: 0 0 12px 2px rgba(124,255,196,0.6);
+  }
+  .field { margin-bottom: 12px; }
+  .field-label {
+    color: rgba(255,255,255,0.5);
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+  }
+  .field-value {
+    color: rgba(255,255,255,0.92);
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 2px;
+  }
+  .card-mrz {
+    margin-top: 18px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+
+  .mrz-strip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.85);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .mrz-divider-strip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    line-height: 1.9;
+    color: #CBD5E1;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .mrz-divider {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    overflow: hidden;
+  }
+  .mrz-divider-inner { display: flex; gap: 40px; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- FEATURES ---------- */
+  .section {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 72px 24px;
+  }
+  .section-eyebrow {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary);
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .section-sub { color: var(--muted); margin-top: 10px; font-size: 15.5px; }
+  .section-head { max-width: 560px; margin-bottom: 44px; }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .feature-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+  .feature-title { font-size: 17px; font-weight: 600; }
+  .feature-sub {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .feature-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .how-wrap { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .step { position: relative; padding: 0 20px 0 0; }
+  .step-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--gold); margin-bottom: 12px; font-weight: 700; }
+  .step-label { font-size: 16px; font-weight: 600; }
+  .step-sub { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin: 2px 0 10px; }
+  .step-desc { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin: 0; }
+  .step-connector { position: absolute; top: 6px; right: -2px; width: 16px; height: 1px; background: var(--border); }
+
+  /* ---------- FAQ ---------- */
+  .faq-section { max-width: 760px; margin: 0 auto; padding: 72px 24px; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-question {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 18px 0;
+    font-size: 15.5px;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: inherit;
+  }
+  .faq-icon { color: var(--muted); font-size: 18px; transition: transform 0.2s; }
+  .faq-icon.open { transform: rotate(45deg); }
+  .faq-answer {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0 0 20px;
+    display: none;
+  }
+  .faq-answer.open { display: block; }
+
+  /* ---------- FOOTER ---------- */
+  .footer { background: var(--primary-dark); color: rgba(255,255,255,0.85); }
+  .footer-inner { max-width: 1120px; margin: 0 auto; padding: 48px 24px 32px; }
+  .footer-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+  .footer-brand { font-weight: 600; font-size: 16px; color: #fff; }
+  .footer-desc { font-size: 13px; color: rgba(255,255,255,0.6); max-width: 320px; margin-top: 8px; line-height: 1.6; }
+  .footer-links { display: flex; gap: 48px; }
+  .footer-col { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 2.2; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.15);
+    margin-top: 32px;
+    padding-top: 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 860px) {
+    .hero-grid { grid-template-columns: 1fr !important; }
+    .feature-grid { grid-template-columns: 1fr 1fr !important; }
+    .steps-grid { grid-template-columns: 1fr 1fr !important; row-gap: 32px; }
+    .nav-links { display: none !important; }
+    h1 { font-size: 36px; }
+  }
+  @media (max-width: 520px) {
+    .feature-grid { grid-template-columns: 1fr !important; }
+    .steps-grid { grid-template-columns: 1fr !important; }
+    .stats { flex-wrap: wrap; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="brand-mark">স</div>
+        <span class="brand-name">সহজপাস</span>
+        <span class="brand-sub">ShohojPass</span>
+      </div>
+      <div class="nav-links">
+        <span>Features</span>
+        <span>How it works</span>
+        <span>FAQ</span>
+      </div>
+      <button class="cta-btn">শুরু করুন</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">সরকারি ওয়েবসাইট নয় — প্রস্তুতি সহায়ক</div>
+        <h1>আপনার পাসপোর্ট যাত্রার<br><span>বিশ্বস্ত সহযাত্রী</span></h1>
+        <p class="hero-desc">সহজপাস আপনাকে সঠিক নথি, সঠিক খরচ এবং সঠিক ধাপ বুঝতে সাহায্য করে — যাতে অফিসিয়াল আবেদন প্রথমবারেই সঠিক হয়।</p>
+        <div class="hero-actions">
+          <button class="btn-primary">যোগ্যতা যাচাই করুন</button>
+          <button class="btn-secondary">কীভাবে কাজ করে</button>
+        </div>
+        <div class="stats">
+          <div>
+            <div class="stat-value">৬৪</div>
+            <div class="stat-label">৬৪ জেলা</div>
+          </div>
+          <div>
+            <div class="stat-value">১২+</div>
+            <div class="stat-label">১২+ ধাপ</div>
+          </div>
+          <div>
+            <div class="stat-value">২৪/৭</div>
+            <div class="stat-label">সার্বক্ষণিক</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card-wrap">
+        <div class="passport-card">
+          <div class="stamp-badge" id="stampBadge">
+            <div class="stamp-text">যাচাই<br>VERIFIED</div>
+          </div>
+          <div class="card-eyebrow">গণপ্রজাতন্ত্রী বাংলাদেশ</div>
+          <div class="card-title">PASSPORT</div>
+          <div class="card-body">
+            <div class="scan-line" id="scanLine"></div>
+            <div class="field">
+              <div class="field-label">নাম / Name</div>
+              <div class="field-value">••••• •••••••</div>
+            </div>
+            <div class="field">
+              <div class="field-label">জন্ম তারিখ / DOB</div>
+              <div class="field-value">•• ••• ••••</div>
+            </div>
+            <div class="field">
+              <div class="field-label">পাসপোর্ট নং / No.</div>
+              <div class="field-value">•• •••••••</div>
+            </div>
+            <div class="field">
+              <div class="field-label">মেয়াদ / Expiry</div>
+              <div class="field-value">•• ••• ••••</div>
+            </div>
+          </div>
+          <div class="card-mrz">
+            <div class="mrz-strip" id="cardMrz1"></div>
+            <div class="mrz-strip" id="cardMrz2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mrz-divider">
+      <div class="mrz-divider-inner">
+        <div class="mrz-divider-strip" id="divMrz0"></div>
+        <div class="mrz-divider-strip" id="divMrz1"></div>
+        <div class="mrz-divider-strip" id="divMrz2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-eyebrow">FEATURES</div>
+      <h2 class="section-title">যা কিছু প্রস্তুতির জন্য দরকার</h2>
+      <p class="section-sub">Everything you need to prepare, in one place.</p>
+    </div>
+    <div class="feature-grid" id="featureGrid"></div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="how-wrap">
+    <div class="section">
+      <div class="section-eyebrow">HOW IT WORKS</div>
+      <h2 class="section-title" style="margin: 0 0 40px;">চারটি সহজ ধাপ</h2>
+      <div class="steps-grid" id="stepsGrid"></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="section-eyebrow">FAQ</div>
+    <h2 class="section-title" style="margin: 0 0 32px;">সাধারণ জিজ্ঞাসা</h2>
+    <div id="faqList"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">সহজপাস · ShohojPass</div>
+          <p class="footer-desc">অফিসিয়াল e-Passport পোর্টালের সহায়ক প্রস্তুতি প্ল্যাটফর্ম। This is not the official government passport service.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">Eligibility<br>Checklist<br>Fees</div>
+          <div class="footer-col">Offices<br>Knowledge base<br>Complaints</div>
+        </div>
+      </div>
+      <div class="footer-bottom">© 2026 সহজপাস — Not affiliated with the Department of Immigration &amp; Passports.</div>
+    </div>
+  </div>
+
+<script>
+  // ---------- MRZ generator (deterministic pseudo-random, mirrors the React version) ----------
+  function mrzLine(seed, len) {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<";
+    let out = "";
+    let s = seed;
+    for (let i = 0; i < len; i++) {
+      s = (s * 9301 + 49297) % 233280;
+      out += chars[Math.floor((s / 233280) * chars.length)];
+    }
+    return out;
+  }
+
+  document.getElementById('cardMrz1').textContent = "P<BGD" + mrzLine(17, 39);
+  document.getElementById('cardMrz2').textContent = mrzLine(53, 44);
+  document.getElementById('divMrz0').textContent = "P<BGD" + mrzLine(17, 39);
+  document.getElementById('divMrz1').textContent = mrzLine(53, 44);
+  document.getElementById('divMrz2').textContent = "P<BGD" + mrzLine(17, 39);
+
+  // ---------- Stamp reveal ----------
+  setTimeout(() => {
+    document.getElementById('stampBadge').classList.add('visible');
+  }, 700);
+
+  // ---------- Scan line animation ----------
+  (function animateScan() {
+    const scanEl = document.getElementById('scanLine');
+    let start = null;
+    function tick(ts) {
+      if (!start) start = ts;
+      const elapsed = (ts - start) % 2600;
+      const y = (elapsed / 2600) * 230;
+      scanEl.style.top = y + 'px';
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  // ---------- Features ----------
+  const features = [
+    { title: "যোগ্যতা যাচাই", sub: "Eligibility checker", desc: "Answer a few questions and know exactly which passport track applies to you — first-time, renewal, lost, or emergency." },
+    { title: "স্মার্ট চেকলিস্ট", sub: "Smart document checklist", desc: "Every required document, with sample images and the mistakes that get applications rejected." },
+    { title: "ফি ক্যালকুলেটর", sub: "Fee calculator", desc: "Regular, express, or super express — see the exact cost before you commit to a track." },
+    { title: "অ্যাপয়েন্টমেন্ট", sub: "Appointment planner", desc: "Pick a district, date, and time slot, and prepare with a clear pre-visit checklist." },
+    { title: "আবেদন ট্র্যাকিং", sub: "Application tracking", desc: "Follow your application from submission through biometric, printing, and collection." },
+    { title: "অফিস লোকেটর", sub: "Office locator", desc: "Find the nearest passport office, its hours, and get directions in one tap." }
+  ];
+  const featureGrid = document.getElementById('featureGrid');
+  features.forEach(f => {
+    const card = document.createElement('div');
+    card.className = 'feature-card';
+    card.innerHTML = `
+      <div class="feature-title">${f.title}</div>
+      <div class="feature-sub">${f.sub}</div>
+      <p class="feature-desc">${f.desc}</p>
+    `;
+    featureGrid.appendChild(card);
+  });
+
+  // ---------- Steps ----------
+  const steps = [
+    { label: "নিজেকে যাচাই করুন", sub: "Check eligibility", desc: "Tell us your situation — we tell you the exact track and requirements." },
+    { label: "নথি প্রস্তুত করুন", sub: "Prepare documents", desc: "Follow the checklist, avoid common mistakes, upload as you go." },
+    { label: "অ্যাপয়েন্টমেন্ট নিন", sub: "Book appointment", desc: "Choose your district office and a slot that works for you." },
+    { label: "অগ্রগতি দেখুন", sub: "Track progress", desc: "Watch your application move from submission to collection." }
+  ];
+  const stepsGrid = document.getElementById('stepsGrid');
+  steps.forEach((s, i) => {
+    const step = document.createElement('div');
+    step.className = 'step';
+    step.innerHTML = `
+      <div class="step-num">${String(i + 1).padStart(2, "0")}</div>
+      <div class="step-label">${s.label}</div>
+      <div class="step-sub">${s.sub}</div>
+      <p class="step-desc">${s.desc}</p>
+      ${i < steps.length - 1 ? '<div class="step-connector"></div>' : ''}
+    `;
+    stepsGrid.appendChild(step);
+  });
+
+  // ---------- FAQ ----------
+  const faqs = [
+    { q: "সহজপাস কি সরকারি ওয়েবসাইট প্রতিস্থাপন করে?", a: "না। সহজপাস অফিসিয়াল e-Passport পোর্টালের একটি সহায়ক — এটি নথি প্রস্তুতি, খরচ এবং ধাপগুলো বুঝতে সাহায্য করে। চূড়ান্ত আবেদন সরকারি ওয়েবসাইটেই জমা দিতে হয়।" },
+    { q: "Is my data stored securely?", a: "Yes — your profile and application progress are stored securely and only visible to you." },
+    { q: "Can I use this from abroad?", a: "Yes. Expat mode is designed for Bangladeshis applying from outside the country, with embassy-specific guidance." },
+    { q: "Does the fee calculator reflect official rates?", a: "It mirrors the latest published government fee schedule, updated as rates change." }
+  ];
+  const faqList = document.getElementById('faqList');
+  let openIndex = 0;
+
+  function renderFaqs() {
+    faqList.innerHTML = '';
+    faqs.forEach((f, i) => {
+      const item = document.createElement('div');
+      item.className = 'faq-item';
+      item.innerHTML = `
+        <button class="faq-question" data-index="${i}">
+          <span>${f.q}</span>
+          <span class="faq-icon ${openIndex === i ? 'open' : ''}">+</span>
+        </button>
+        <p class="faq-answer ${openIndex === i ? 'open' : ''}">${f.a}</p>
+      `;
+      faqList.appendChild(item);
+    });
+
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-index'), 10);
+        openIndex = openIndex === idx ? -1 : idx;
+        renderFaqs();
+      });
+    });
+  }
+  renderFaqs();
+</script>
+
+</body>
 </html>
